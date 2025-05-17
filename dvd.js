@@ -1,9 +1,3 @@
-
-//SOUNDS
-var soundX = new Audio("bleep.aif");
-var soundY = new Audio("bleep.aif");
-var soundCorner = new Audio("shortsaxish.aif");
-
 var cornerAnimationTimer;
 var frameTimerInterval = 5;
 
@@ -23,9 +17,8 @@ function getRandomColor() {
 }
 
 //CHANGE COLOR OF DVD LOGO SVG
-function changeCubeColor(animationBox, sound, cornerDetection) {
-    document.getElementById("dvdLogo").setAttribute("fill", getRandomColor());
-    if (cornerDetection) sound.play(); 
+function changeCubeColor(animationBox, cornerDetection) {
+    document.getElementById("dvdLogo").style.filter = "hue-rotate(" + Math.floor(Math.random()*360) + "deg"
 }
 
 function onCornerHit() {
@@ -36,9 +29,9 @@ function onCornerHit() {
 
   function vibrateRed() {
       if (animationCount % 2 == 0) {
-        document.getElementById("dvdLogo").setAttribute("fill", newColor);
+        document.getElementById("dvdLogo").style.filter = "hue-rotate(" + Math.floor(Math.random()*360) + "deg"
       } else {
-        document.getElementById("dvdLogo").setAttribute("fill", "#ff0000");
+        document.getElementById("dvdLogo").style.filter = "hue-rotate(" + Math.floor(Math.random()*360) + "deg"
       }
 
       if (++animationCount > 26) {
@@ -46,9 +39,6 @@ function onCornerHit() {
       }
   }
 
-  soundX.pause();
-  soundY.pause();
-  soundCorner.play();
 }
 
 
@@ -71,8 +61,9 @@ function detectCorner(newX, newY, maxX, maxY, w, h) {
     onCornerHit();
     return true;
   }
-
-  return false;
+  else {
+    return false;
+  }
 }
 
 
@@ -84,8 +75,8 @@ function movingBox() {
   var oldX = getPixelValue(animationBox.css("left"));
   var oldY = getPixelValue(animationBox.css("top"));
 
-  var directionX = 1.0;
-  var directionY = 1.0;
+  var directionX = 0.5;
+  var directionY = 0.5;
 
   var cornerDetection = true;
   var framesSinceCorner = 0;
@@ -103,14 +94,14 @@ function movingBox() {
 
       if (oldX <= 0 || oldX >= maxX) { 
         directionX = directionX * -1;
-        changeCubeColor(animationBox, soundX, cornerDetection);
+        changeCubeColor(animationBox, cornerDetection);
       } 
 
       newX = newX + 2 * directionX;
 
       if (oldY <= 0 || oldY >= maxY) {
         directionY = directionY * -1;
-        changeCubeColor(animationBox, soundY, cornerDetection);
+        changeCubeColor(animationBox, cornerDetection);
       } 
 
       newY = newY + 2 * directionY;
